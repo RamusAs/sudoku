@@ -9,7 +9,6 @@ function App() {
   const [game] = useState(() => generateSudokuGrid())
   const [grid, setGrid] = useState(game.grid)
   const [solutionGrid, setSolution] = useState(game.solution)
-  console.log("🚀 ~ App ~ solutionGrid:", solutionGrid)
   // État pour stocker les classes de style par cellule
   const [gridStatus, setGridStatus] = useState(
     Array(9).fill(Array(9).fill("")) // Initialisation sans aucune classe

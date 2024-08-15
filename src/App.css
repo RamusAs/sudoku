@@ -6,6 +6,7 @@ body {
   background-color: #282c34;
   color: #e6e6e6;
   text-align: center;
+  overflow: hidden;
 }
 
 button {
@@ -39,21 +40,19 @@ input {
   background-color: #282c34;
   border-radius: 0;
 }
- 
+
 .sudoku-row :nth-child(3n) {
   border-right: 3px solid #e6e6e648;
 }
 .sudoku-row:nth-child(3n) {
   border-bottom: 2px solid #e6e6e648;
-} 
+}
 .sudoku-row :first-child {
   border-left: 3px solid #e6e6e648;
 }
-.sudoku-row:first-child  {
+.sudoku-row:first-child {
   border-top: 2px solid #e6e6e648;
-} 
-
-
+}
 
 /* Optionnel : Pour rendre le design plus propre */
 .sudoku-cell:focus {
@@ -76,4 +75,15 @@ input {
     height: 25px;
     font-size: 14px;
   }
+}
+
+span {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+}
+span a {
+  color: #64ffda;
+  text-decoration: underline;
+  padding: 0 20px 20px 0;
 }
