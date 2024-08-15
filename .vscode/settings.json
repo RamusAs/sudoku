@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "html.format.indentHandlebars": true,
+    "javascript.format.semicolons": "remove",
+    "typescript.format.semicolons": "remove"
+}

@@ -1,38 +1,79 @@
-.App {
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #282c34;
+  color: #e6e6e6;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+button {
+  margin: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+input {
+  outline: none;
+  -webkit-appearance: none; /* Désactiver le style par défaut sur iOS */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sudoku-grid {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* Pas d'écart entre les cellules */
 }
 
-.App-link {
-  color: #61dafb;
+.sudoku-row {
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.sudoku-cell {
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  border: 1px solid #e6e6e648;
+  color: #e6e6e6;
+  background-color: #282c34;
+  border-radius: 0;
+}
+ 
+.sudoku-row :nth-child(3n) {
+  border-right: 3px solid #e6e6e648;
+}
+.sudoku-row:nth-child(3n) {
+  border-bottom: 2px solid #e6e6e648;
+} 
+.sudoku-row :first-child {
+  border-left: 3px solid #e6e6e648;
+}
+.sudoku-row:first-child  {
+  border-top: 2px solid #e6e6e648;
+} 
+
+
+
+/* Optionnel : Pour rendre le design plus propre */
+.sudoku-cell:focus {
+  outline: none;
+  border-color: #64ffda;
+  /* Bordure bleue lorsque l'utilisateur clique sur une cellule */
+}
+
+.sudoku-cell.correct {
+  background-color: green;
+}
+
+.sudoku-cell.incorrect {
+  background-color: red;
+}
+
+@media (max-width: 600px) {
+  .sudoku-cell {
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
   }
 }
