@@ -8,11 +8,39 @@ body {
   text-align: center;
   overflow: hidden;
 }
+@keyframes show-gif {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
 button {
-  margin: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
+  all: unset;
+  border: 1px solid #64ffda;
+  border-radius: 4px;
+  color: #64ffda;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1;
+  margin: 12px;
+  padding: 12px 16px;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.3s ease-in;
+}
+
+button:hover {
+  background-color: #64ffdb55;
+}
+button:disabled {
+  border-color: grey;
+  background-color: rgba(128, 128, 128, 0.284);
+  color: grey;
+  cursor: not-allowed;
 }
 
 input {
@@ -23,6 +51,7 @@ input {
 .sudoku-grid {
   display: flex;
   flex-direction: column;
+  margin: 12px;
   /* Pas d'écart entre les cellules */
 }
 
@@ -42,13 +71,13 @@ input {
 }
 
 .sudoku-row :nth-child(3n) {
-  border-right: 3px solid #e6e6e648;
+  border-right: 2px solid #e6e6e648;
 }
 .sudoku-row:nth-child(3n) {
   border-bottom: 2px solid #e6e6e648;
 }
 .sudoku-row :first-child {
-  border-left: 3px solid #e6e6e648;
+  border-left: 2px solid #e6e6e648;
 }
 .sudoku-row:first-child {
   border-top: 2px solid #e6e6e648;
@@ -61,12 +90,41 @@ input {
   /* Bordure bleue lorsque l'utilisateur clique sur une cellule */
 }
 
+.sudoku-cell.selected {
+  background-color: #64ffdb1f;
+}
+
+.sudoku-cell-wrapper {
+  position: relative;
+}
+
 .sudoku-cell.correct {
-  background-color: green;
+  border-color: #64ffda;
 }
 
 .sudoku-cell.incorrect {
-  background-color: red;
+  position: relative;
+  border-color: #ff6464;
+}
+
+.error-gif {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: show-gif 1s ease-out forwards;
+}
+
+.sudoku-cell.incorrect .error-gif {
+  opacity: 1; /* Montre le GIF pendant 1 seconde */
+}
+
+.sudoku-cell.pre-filled {
+  background-color: #64ffdb75;
+  /* font-weight: bold; */
 }
 
 @media (max-width: 600px) {
@@ -74,6 +132,10 @@ input {
     width: 25px;
     height: 25px;
     font-size: 14px;
+  }
+  .error-gif {
+    width: 25px;
+    height: 25px;
   }
 }
 

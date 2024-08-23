@@ -1,19 +1,52 @@
+import { useState } from "react"
 import SudokuCell from "./SudokuCell"
 
-const SudokuGrid = ({ grid, updateCell, gridStatus }) => {
+const SudokuGrid = ({ grid, updateCell, gridStatus, initialGrid }) => {
+ 
+  const [selectedCell, setSelectedCell] = useState(null)
+
+  // Fonction appelée lorsqu'une cellule est sélectionnée
+  const handleCellClick = (rowIndex, colIndex) => {
+    setSelectedCell({ row: rowIndex, col: colIndex })
+  }
+
+  const isSameRow = (rowIndex) => selectedCell && selectedCell.row === rowIndex
+  const isSameCol = (colIndex) => selectedCell && selectedCell.col === colIndex
+  const isSameSquare = (rowIndex, colIndex) => {
+    if (!selectedCell) return false
+    const startRow = Math.floor(selectedCell.row / 3) * 3
+    const startCol = Math.floor(selectedCell.col / 3) * 3
+    return (
+      rowIndex >= startRow &&
+      rowIndex < startRow + 3 &&
+      colIndex >= startCol &&
+      colIndex < startCol + 3
+    )
+  }
   return (
     <div className="sudoku-grid">
       {grid.map((row, rowIndex) => (
         <div className="sudoku-row" key={rowIndex}>
           {row.map((value, colIndex) => (
-            <SudokuCell
-              key={colIndex}
-              value={value}
-              row={rowIndex}
-              col={colIndex}
-              updateCell={updateCell}
-              className={gridStatus[rowIndex][colIndex]}
-            />
+            <>
+              <SudokuCell
+                key={colIndex}
+                value={value}
+                row={rowIndex}
+                col={colIndex}
+                updateCell={updateCell}
+                className={`${
+                  initialGrid[rowIndex][colIndex] !== "" ? "pre-filled" : ""
+                } ${gridStatus[rowIndex][colIndex]} ${
+                  isSameRow(rowIndex) ||
+                  isSameCol(colIndex) ||
+                  isSameSquare(rowIndex, colIndex)
+                    ? "selected"
+                    : ""
+                }`}
+                onSelect={() => handleCellClick(rowIndex, colIndex)}
+              />
+            </>
           ))}
         </div>
       ))}
@@ -35,7 +68,7 @@ const SudokuGrid = ({ grid, updateCell, gridStatus }) => {
           <svg
             stroke="currentColor"
             fill="currentColor"
-            stroke-width="0"
+            strokeWidth="0"
             viewBox="0 0 496 512"
             height="1.5em"
             width="1.5em"

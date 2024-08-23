@@ -5,10 +5,13 @@ import SudokuGrid from "./components/SudokuGrid"
 import ControlPanel from "./components/ControlPanel"
 import "./App.css"
 
+
 function App() {
   const [game] = useState(() => generateSudokuGrid())
+  const [attempts, setAttempts] = useState(0)
   const [grid, setGrid] = useState(game.grid)
   const [solutionGrid, setSolution] = useState(game.solution)
+  const [initialGrid, setInitialGrid] = useState(grid.map((row) => [...row]))
   // État pour stocker les classes de style par cellule
   const [gridStatus, setGridStatus] = useState(
     Array(9).fill(Array(9).fill("")) // Initialisation sans aucune classe
@@ -18,8 +21,10 @@ function App() {
   const resetGame = () => {
     const { grid, solution } = generateSudokuGrid()
     setGrid(grid)
+    setInitialGrid([...grid])
     setSolution(solution)
     setGridStatus(Array(9).fill(Array(9).fill("")))
+    setAttempts(0)
   }
 
   // Fonction pour vérifier si la grille est complète et correcte
@@ -39,6 +44,13 @@ function App() {
   }
 
   const checkSolution = () => {
+    
+    if (attempts > 1) {
+      alert("Vous avez perdu. Reéssayez!")
+      resetGame()
+      return
+    }
+
     const cp = [...grid].map((el) => [...el])
     const newGridStatus = cp.map((row, rowIndex) =>
       row.map((cell, colIndex) => {
@@ -53,6 +65,7 @@ function App() {
       })
     )
     setGridStatus(newGridStatus)
+    setAttempts(attempts + 1)
   }
 
   return (
@@ -69,8 +82,13 @@ function App() {
           )
           setGrid(newGrid)
         }}
+        initialGrid={initialGrid}
       />
-      <ControlPanel resetGame={resetGame} checkGame={checkWin} />
+      <ControlPanel
+        resetGame={resetGame}
+        checkGame={checkWin}
+        attempts={attempts}
+      />
     </div>
   )
 }
