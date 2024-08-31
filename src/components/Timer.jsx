@@ -1,25 +1,38 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 
 const Timer = ({ isGameOver, timeElapsed, setTimeElapsed }) => {
-  const [isRunning, setIsRunning] = useState(true)
-
   useEffect(() => {
     let timer
 
-    if (isRunning) {
+    // Fonction pour démarrer ou reprendre le chronomètre
+    const startTimer = () => {
       timer = setInterval(() => {
         setTimeElapsed((prevTime) => prevTime + 1)
       }, 1000)
     }
 
-    // Arrête le chronomètre lorsque la partie est terminée
-    if (isGameOver) {
-      setIsRunning(false)
-      clearInterval(timer)
+    // Démarrer le chronomètre si le jeu n'est pas terminé
+    if (!isGameOver) {
+      startTimer()
     }
 
-    return () => clearInterval(timer) // Nettoyage de l'intervalle
-  }, [isRunning, isGameOver]) //eslint-disable-line react-hooks/exhaustive-deps
+    // Gestion du changement de visibilité
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        clearInterval(timer)
+      } else if (!isGameOver) {
+        startTimer()
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+
+    // Nettoyage
+    return () => {
+      clearInterval(timer)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
+  }, [isGameOver]) //eslint-disable-line react-hooks/exhaustive-deps
 
   // Formater le temps écoulé en minutes et secondes
   const formatTime = (time) => {
