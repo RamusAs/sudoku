@@ -4,7 +4,8 @@ import { generateSudokuGrid, isValidSudoku } from "./sudokuUtils" // Import des 
 import SudokuGrid from "./components/SudokuGrid"
 import ControlPanel from "./components/ControlPanel"
 import "./App.css"
-
+import Timer from "./components/Timer"
+import { Confetti } from "./components/Confetti"
 
 function App() {
   const [game] = useState(() => generateSudokuGrid())
@@ -12,6 +13,9 @@ function App() {
   const [grid, setGrid] = useState(game.grid)
   const [solutionGrid, setSolution] = useState(game.solution)
   const [initialGrid, setInitialGrid] = useState(grid.map((row) => [...row]))
+  const [timeElapsed, setTimeElapsed] = useState(0)
+  const [isGameOver, setIsGameOver] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
   // État pour stocker les classes de style par cellule
   const [gridStatus, setGridStatus] = useState(
     Array(9).fill(Array(9).fill("")) // Initialisation sans aucune classe
@@ -25,6 +29,7 @@ function App() {
     setSolution(solution)
     setGridStatus(Array(9).fill(Array(9).fill("")))
     setAttempts(0)
+    setTimeElapsed(0)
   }
 
   // Fonction pour vérifier si la grille est complète et correcte
@@ -36,18 +41,21 @@ function App() {
     }
 
     if (isValidSudoku(grid)) {
+      setIsGameOver(true)
       alert("Félicitations, vous avez gagné !")
+      setTimeElapsed(0)
+      setIsVisible(true)
     } else {
       checkSolution()
-      alert("Désolé, il y a des erreurs dans la grille.")
+      //alert("Désolé, il y a des erreurs dans la grille.")
     }
   }
 
   const checkSolution = () => {
-    
     if (attempts > 1) {
       alert("Vous avez perdu. Reéssayez!")
       resetGame()
+      setTimeElapsed(0)
       return
     }
 
@@ -71,6 +79,13 @@ function App() {
   return (
     <div className="App">
       <h1>Sudoku</h1>
+      {isVisible && <Confetti />}
+
+      <Timer
+        isGameOver={isGameOver}
+        timeElapsed={timeElapsed}
+        setTimeElapsed={setTimeElapsed}
+      />
       <SudokuGrid
         grid={grid}
         gridStatus={gridStatus}
@@ -83,6 +98,8 @@ function App() {
           setGrid(newGrid)
         }}
         initialGrid={initialGrid}
+        isGameOver={isGameOver}
+        setIsGameOver={setIsGameOver}
       />
       <ControlPanel
         resetGame={resetGame}

@@ -2,7 +2,6 @@ import { useState } from "react"
 import SudokuCell from "./SudokuCell"
 
 const SudokuGrid = ({ grid, updateCell, gridStatus, initialGrid }) => {
- 
   const [selectedCell, setSelectedCell] = useState(null)
 
   // Fonction appelée lorsqu'une cellule est sélectionnée
@@ -28,25 +27,23 @@ const SudokuGrid = ({ grid, updateCell, gridStatus, initialGrid }) => {
       {grid.map((row, rowIndex) => (
         <div className="sudoku-row" key={rowIndex}>
           {row.map((value, colIndex) => (
-            <>
-              <SudokuCell
-                key={colIndex}
-                value={value}
-                row={rowIndex}
-                col={colIndex}
-                updateCell={updateCell}
-                className={`${
-                  initialGrid[rowIndex][colIndex] !== "" ? "pre-filled" : ""
-                } ${gridStatus[rowIndex][colIndex]} ${
-                  isSameRow(rowIndex) ||
-                  isSameCol(colIndex) ||
-                  isSameSquare(rowIndex, colIndex)
-                    ? "selected"
-                    : ""
-                }`}
-                onSelect={() => handleCellClick(rowIndex, colIndex)}
-              />
-            </>
+            <SudokuCell
+              key={colIndex}
+              value={value}
+              row={rowIndex}
+              col={colIndex}
+              updateCell={updateCell}
+              className={`${
+                initialGrid[rowIndex][colIndex] !== "" ? "pre-filled" : ""
+              } ${gridStatus[rowIndex][colIndex]} ${
+                isSameRow(rowIndex) ||
+                isSameCol(colIndex) ||
+                isSameSquare(rowIndex, colIndex)
+                  ? "selected"
+                  : ""
+              }`}
+              onSelect={() => handleCellClick(rowIndex, colIndex)}
+            />
           ))}
         </div>
       ))}
