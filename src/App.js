@@ -107,6 +107,7 @@ function App() {
         setIsGameOver={setIsGameOver}
       />
       <ControlPanel
+        grid={grid}
         resetGame={resetGame}
         checkGame={checkWin}
         attempts={attempts}
