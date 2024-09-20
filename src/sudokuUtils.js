@@ -1,4 +1,10 @@
 export const generateSudokuGrid = () => {
+  const savedGrid = localStorage.getItem("gridState")
+  const solutionGrid = localStorage.getItem("solutionState")
+  if (savedGrid && solutionGrid) {
+    return { grid: JSON.parse(savedGrid), solution: JSON.parse(solutionGrid) }
+  }
+
   let solution
   // Créer une grille vide
   let grid = Array(9)
@@ -10,6 +16,10 @@ export const generateSudokuGrid = () => {
   solution = [...grid].map((el) => [...el])
   // Supprimer des valeurs aléatoires pour créer un puzzle
   const numberOfCellsToShow = 30 // On montre 30 cellules au début
+  
+  localStorage.setItem("gridState", JSON.stringify(removeNumbersFromGrid(grid, numberOfCellsToShow)))
+  localStorage.setItem("solutionState", JSON.stringify(solution))
+
   return { grid: removeNumbersFromGrid(grid, numberOfCellsToShow), solution }
 }
 

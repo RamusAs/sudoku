@@ -30,6 +30,8 @@ function App() {
     setGridStatus(Array(9).fill(Array(9).fill("")))
     setAttempts(0)
     setTimeElapsed(0)
+    localStorage.removeItem("gridState")
+    localStorage.removeItem("solutionState")
   }
 
   // Fonction pour vérifier si la grille est complète et correcte
@@ -52,7 +54,7 @@ function App() {
   }
 
   const checkSolution = () => {
-    if (attempts > 1) {
+    if (attempts > 2) {
       alert("Vous avez perdu. Reéssayez!")
       resetGame()
       setTimeElapsed(0)
@@ -76,6 +78,16 @@ function App() {
     setAttempts(attempts + 1)
   }
 
+  const updateCell = (row, col, value) => {
+    const newGrid = grid.map((r, rowIndex) =>
+      r.map((cell, colIndex) =>
+        rowIndex === row && colIndex === col ? value : cell
+      )
+    )
+    setGrid(newGrid)
+    localStorage.setItem("gridState", JSON.stringify(newGrid))
+  }
+
   return (
     <div className="App">
       <h1>Sudoku</h1>
@@ -89,14 +101,7 @@ function App() {
       <SudokuGrid
         grid={grid}
         gridStatus={gridStatus}
-        updateCell={(row, col, value) => {
-          const newGrid = grid.map((r, rowIndex) =>
-            r.map((cell, colIndex) =>
-              rowIndex === row && colIndex === col ? value : cell
-            )
-          )
-          setGrid(newGrid)
-        }}
+        updateCell={updateCell}
         initialGrid={initialGrid}
         isGameOver={isGameOver}
         setIsGameOver={setIsGameOver}
